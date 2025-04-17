@@ -1,12 +1,20 @@
 package com.educandoweb.course.entities;
 
 import java.io.Serializable;
-import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
-
-	
 	private static final long serialVersionUID = 1L;
+
+	@Id // @Id será pra determinar a chave primária
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String email; // esses são os 5 atributos da classe User.
@@ -77,11 +85,14 @@ public class User implements Serializable {
 	}
 
 	// agora os hashCodes & equals!!
-	
+
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -93,12 +104,17 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(id, other.id);
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
-	// agora o Serialize!! Para transformar os objetos em cadeias de bytes!!! para que o objeto possa ser gravado em arquivo por exemplo!!!
+	// agora o Serialize!! Para transformar os objetos em cadeias de bytes!!! para
+	// que o objeto possa ser gravado em arquivo por exemplo!!!
 
 	// lá em cima na frente da classe se coloca implements Sserializable.
-	
-	
+
 }
